@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BeleanIoan_DanielLab7.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="10" Padding="10" HorizontalOptions="Center" VerticalOptions="Center">
+            <Image Source="barcelona.jpg" 
+                   SemanticProperties.Description="Imagine cu Barcelona" 
+                   HeightRequest="200" WidthRequest="200" />
+            <Label Text="Aceasta este echipa mea preferata"
+                   FontSize="18" 
+                   HorizontalTextAlignment="Center" />
+            <Button x:Name="CounterBtn" 
+                    Text="Click me" 
+                    Clicked="OnCounterClicked"
+                    FontSize="18" />
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
+
