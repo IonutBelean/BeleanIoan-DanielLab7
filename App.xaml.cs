@@ -2,7 +2,6 @@
 
 namespace BeleanIoan_DanielLab7
 {
-
     public partial class App : Application
     {
         static ShoppingListDatabase database;

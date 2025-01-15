@@ -11,8 +11,7 @@ namespace BeleanIoan_DanielLab7.Models
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
-        [MaxLength(250), Unique]
-        public string Description { get; set; }
-        public DateTime Date { get; set; }
+        public string Name { get; set; } // Pentru Text="{Binding Name}"
+        public DateTime Date { get; set; } // Pentru Detail="{Binding Date}"
     }
 }

@@ -1,9 +1,6 @@
-﻿using System;
+﻿using SQLite;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using SQLite;
 using BeleanIoan_DanielLab7.Models;
 
 namespace BeleanIoan_DanielLab7.Data
@@ -16,36 +13,81 @@ namespace BeleanIoan_DanielLab7.Data
         {
             _database = new SQLiteAsyncConnection(dbPath);
             _database.CreateTableAsync<ShopList>().Wait();
+            _database.CreateTableAsync<Product>().Wait();
+            _database.CreateTableAsync<ListProduct>().Wait();
         }
 
+        // Fetch all shopping lists
         public Task<List<ShopList>> GetShopListsAsync()
         {
             return _database.Table<ShopList>().ToListAsync();
         }
 
-        public Task<ShopList> GetShopListAsync(int id)
+        // Save or update a shopping list
+        public Task<int> SaveShopListAsync(ShopList shopList)
         {
-            return _database.Table<ShopList>()
-                             .Where(i => i.ID == id)
-                             .FirstOrDefaultAsync();
-        }
-
-        public Task<int> SaveShopListAsync(ShopList slist)
-        {
-            if (slist.ID != 0)
+            if (shopList.ID != 0)
             {
-                return _database.UpdateAsync(slist);
+                return _database.UpdateAsync(shopList);
             }
             else
             {
-                return _database.InsertAsync(slist);
+                return _database.InsertAsync(shopList);
             }
         }
 
-        public Task<int> DeleteShopListAsync(ShopList slist)
+        // Delete a shopping list
+        public Task<int> DeleteShopListAsync(ShopList shopList)
         {
-            return _database.DeleteAsync(slist);
+            return _database.DeleteAsync(shopList);
+        }
+
+        // Save or update a product
+        public Task<int> SaveProductAsync(Product product)
+        {
+            if (product.ID != 0)
+            {
+                return _database.UpdateAsync(product);
+            }
+            else
+            {
+                return _database.InsertAsync(product);
+            }
+        }
+
+        // Delete a product
+        public Task<int> DeleteProductAsync(Product product)
+        {
+            return _database.DeleteAsync(product);
+        }
+
+        // Get all products
+        public Task<List<Product>> GetProductsAsync()
+        {
+            return _database.Table<Product>().ToListAsync();
+        }
+
+        // Save or update a ListProduct
+        public Task<int> SaveListProductAsync(ListProduct listp)
+        {
+            if (listp.ID != 0)
+            {
+                return _database.UpdateAsync(listp);
+            }
+            else
+            {
+                return _database.InsertAsync(listp);
+            }
+        }
+
+        // Get products in a specific shopping list
+        public Task<List<Product>> GetListProductsAsync(int shoplistid)
+        {
+            return _database.QueryAsync<Product>(
+                "select P.ID, P.Description from Product P"
+                + " inner join ListProduct LP"
+                + " on P.ID = LP.ProductID where LP.ShopListID = ?",
+                shoplistid);
         }
     }
-
 }
